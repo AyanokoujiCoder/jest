@@ -1,0 +1,84 @@
+Jest es un *framework* de pruebas de JavaScript desarrollado por Facebook, 
+y es muy utilizado en proyectos de React para realizar pruebas unitarias, 
+de integración y de snapshot.
+
+### Características principales:
+1. **Pruebas unitarias**: Puedes probar componentes o funciones individuales de React 
+para verificar que se comporten correctamente bajo diferentes condiciones.
+  
+2. **Simulaciones (Mocks)**: Jest permite simular funciones, módulos o cualquier 
+componente, lo que es útil para pruebas en aislamiento, evitando dependencias externas.
+
+3. **Snapshots**: Una característica única de Jest es la capacidad de generar pruebas 
+de *snapshots*, que capturan el estado de un componente en un momento determinado. 
+Si un componente cambia, Jest te alertará para que revises si el cambio fue intencional o un error.
+
+4. **Integración con React Testing Library**: Aunque Jest puede funcionar por sí solo, 
+comúnmente se usa junto a React Testing Library, que proporciona utilidades 
+específicas para probar la UI de los componentes React.
+
+5. **Cobertura de código**: Jest genera informes detallados sobre qué partes del código 
+están cubiertas por las pruebas y cuáles no, ayudando a garantizar que todo el código esté probado.
+
+6. **Fácil configuración**: No requiere configuraciones complicadas para empezar a 
+usarlo en un proyecto de React, lo que lo hace accesible para desarrolladores de todos los niveles.
+
+https://jestjs.io/
+
+$ npm i jest -D
+
+Texting Library:
+
+https://testing-library.com/docs/react-testing-library/intro/
+
+Step 1: React Component
+First, let's create a simple React component called Greeting.js that takes a name as a prop and displays a greeting message.
+
+Greeting.js
+
+import React from "react";
+
+const Greeting = ({ name }) => {
+  return (
+    <div>
+      <h1>Hello, {name}!</h1>
+    </div>
+  );
+};
+
+export default Greeting;
+
+Step 2: Test the Component with Jest
+Now, we will write a test using Jest to check if the component renders correctly with the given name prop.
+
+Greeting.test.js
+
+import React from "react";
+import { render } from "@testing-library/react";
+import Greeting from "./Greeting";
+
+test('renders the correct greeting message', () => {
+  const { getByText } = render(<Greeting name="John" />);
+  const greetingElement = getByText(/Hello, John!/i);
+  expect(greetingElement).toBeInTheDocument();
+});
+
+Explanation:
+React Testing Library: We use render() from the @testing-library/react package to render the Greeting component in a virtual DOM environment.
+getByText(): This function searches the rendered component for a specific text, in this case, the greeting message "Hello, John!".
+expect(): The expect() function verifies that the greeting message is present in the document using the .toBeInTheDocument() matcher.
+Step 3: Run the Test
+To run the test, open your terminal and use the following command:
+
+$ npm test
+
+Additional Example:
+If you want to add more test cases to verify different prop values, you can expand the test:
+
+test('renders a personalized greeting message', () => {
+  const { getByText } = render(<Greeting name="Jane" />);
+  const greetingElement = getByText(/Hello, Jane!/i);
+  expect(greetingElement).toBeInTheDocument();
+});
+
+Cuando haya cambios de muchos desarrolladores estos cambios no rompan el codigo ya que vas a tener prueba que capturen cualquier tipo de error.
